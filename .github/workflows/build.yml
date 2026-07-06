@@ -454,7 +454,7 @@ jobs:
               ;;
             "Next")
               echo "添加 KernelSU-Next..."
-              curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev_susfs
+              curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash
               ;;
             "SukiSU")
               echo "添加 ${{ inputs.ksu_variant }}..."
@@ -557,8 +557,19 @@ jobs:
 
               cd ..
               ;;
-            "Next"|"SukiSU"|"SukiSU(40726)"|"SukiSU(40548)"|"ReSukiSU")
-              echo "Next/SukiSU/SukiSU(40726)/SukiSU(40548)/ReSukiSU 使用内置 SUSFS 支持"
+            "Next")
+              echo "KernelSU-Next 无内置 SUSFS，手动打补丁..."
+              cd ./KernelSU
+              cp $SUSFS4KSU/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
+              if grep -q '^diff --git a/kernel/Makefile b/kernel/Makefile' ./10_enable_susfs_for_ksu.patch \
+                && ! grep -q '^diff --git a/kernel/Kbuild b/kernel/Kbuild' ./10_enable_susfs_for_ksu.patch; then
+                sed -i 's|kernel/Makefile|kernel/Kbuild|g' ./10_enable_susfs_for_ksu.patch
+              fi
+              patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+              cd ..
+              ;;
+            "SukiSU"|"SukiSU(40726)"|"SukiSU(40548)"|"ReSukiSU")
+              echo "SukiSU/ReSukiSU 使用内置 SUSFS 支持"
               ;;
           esac
 
