@@ -559,8 +559,6 @@ jobs:
               ;;
             "Next")
               echo "KernelSU-Next 使用内置 tracepoint hooks + 内核 SUSFS 支持"
-              # KernelSU-Next 不使用 SUSFS inline hooks，不打 10_enable_susfs_for_ksu.patch
-              ;;
               ;;
             "SukiSU"|"SukiSU(40726)"|"SukiSU(40548)"|"ReSukiSU")
               echo "SukiSU/ReSukiSU 使用内置 SUSFS 支持"
