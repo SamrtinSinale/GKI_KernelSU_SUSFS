@@ -559,7 +559,7 @@ jobs:
               ;;
             "Next")
               echo "KernelSU-Next 无内置 SUSFS，手动打补丁..."
-              cd ./KernelSU
+              cd ./KernelSU-Next
               cp $SUSFS4KSU/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
               if grep -q '^diff --git a/kernel/Makefile b/kernel/Makefile' ./10_enable_susfs_for_ksu.patch \
                 && ! grep -q '^diff --git a/kernel/Kbuild b/kernel/Kbuild' ./10_enable_susfs_for_ksu.patch; then
