@@ -233,6 +233,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: 检出代码
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
       - name: 设置显示名称
         run: |
           case "${{ inputs.kernelsu_variant }}" in
